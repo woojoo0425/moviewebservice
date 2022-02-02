@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="app.css" />
     <title>Document</title>
 </head>
 <body>
@@ -15,7 +16,7 @@
 
 <script type="text/babel">
     const root = document.getElementById("root");
-    function App() {
+    function MinutesToHours() {
         const [minutes, setMinutes] = React.useState(0);
         const [flip, setFlip] = React.useState(false);
         const onChange = (event) => {
@@ -33,7 +34,6 @@
                     <label for="minutes">Minutes</label>
                     <input type="number" id="minutes" placeholder="Minutes" value={flip ? minutes * 60 : minutes} onChange={onChange} disable={flip} />
                 </div>
-                <h3>You want to convert {minutes}</h3>
                 <div>
                     <label for="hours">Hours</label>
                     <input type="number" id="hours" placeholder="hours" value={flip ? minutes : Math.round(minutes / 60)} onChange={onChange} disable={!flip} /> 
@@ -42,6 +42,61 @@
                     <button onClick={reset}>Reset</button>
                     <button onClick={onFlip}>Flip</button>
                 </div>
+            </div>    
+        );    
+    };
+    function KmToMiles() {
+        const [km, setKm] = React.useState(0);
+        const [flip, setFlip] = React.useState(false);
+        const onChange = (event) => {
+            setKm(event.target.value);
+        }
+        const reset = () => setKm(0);
+        const onFlip = () => {
+            reset();
+            setFlip((current) => !current);
+        }
+        
+        return (
+            <div>
+                <div>
+                    <label for="km">Kilometer</label>
+                    <input type="number" id="km" placeholder="km" value={flip ? km * 1.609344 : km} onChange={onChange} disable={flip} />
+                </div>
+                <div>
+                    <label for="miles">Miles</label>
+                    <input type="number" id="miles" placeholder="miles" value={flip ? km : km * 0.621371} onChange={onChange} disable={!flip} /> 
+                </div>
+                <div>
+                    <button onClick={reset}>Reset</button>
+                    <button onClick={onFlip}>Flip</button>
+                </div>
+            </div>    
+        );
+    }
+    function App() {
+        const [index, setIndex] = React.useState("x");
+        const onSelect = (event) => {
+            setIndex(event.target.value);
+        }
+
+        return (
+            <div class="container">
+                <div>
+                    <h1>Super Converter</h1>
+                </div>
+                <div>
+                    <select class="select-box" value={index} onChange={onSelect}>
+                        <option value="x">Select Your Units</option>
+                        <option value="0">Minutes To Hours</option>
+                        <option value="1">Km To Miles</option>
+                    </select>
+                </div>
+                <div>    
+                    {index === "x" ? "Please Select Your Units" : null}
+                    {index === "0" ? <MinutesToHours /> : null}
+                    {index === "1" ? <KmToMiles /> : null}
+                </div>    
             </div>    
         );    
     };
